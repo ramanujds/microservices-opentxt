@@ -2,6 +2,7 @@ package com.optxt.notesapp.notesservice.service;
 
 import com.optxt.notesapp.notesservice.client.UserClient;
 import com.optxt.notesapp.notesservice.dto.UserDTO;
+import com.optxt.notesapp.notesservice.exception.ResourceNotFoundException;
 import com.optxt.notesapp.notesservice.model.Note;
 import com.optxt.notesapp.notesservice.repository.NoteRepository;
 import org.springframework.stereotype.Service;
@@ -23,13 +24,13 @@ public class NoteServiceImpl implements NoteService {
     }
 
 
-    public Note save(Note note) {
+    public Note save(Note note) throws ResourceNotFoundException {
 
 //  Fetch the user from user-service
         //    var user = restTemplate.getForObject("http://localhost:8200/api/users/"+note.getUserId(), UserDTO.class);
         var user = userClient.getUserById(note.getUserId());
         if (user == null) {
-            throw new RuntimeException("User not found");
+            throw new ResourceNotFoundException("User not found");
         }
         note.setCreatedAt(LocalDate.now());
         return noteRepository.save(note);

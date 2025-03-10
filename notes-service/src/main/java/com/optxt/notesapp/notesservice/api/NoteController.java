@@ -1,5 +1,6 @@
 package com.optxt.notesapp.notesservice.api;
 
+import com.optxt.notesapp.notesservice.exception.ResourceNotFoundException;
 import com.optxt.notesapp.notesservice.model.Note;
 import com.optxt.notesapp.notesservice.repository.NoteRepository;
 import com.optxt.notesapp.notesservice.service.NoteService;
@@ -25,7 +26,7 @@ public class NoteController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Note createNote(@RequestBody Note note) {
+    public Note createNote(@RequestBody Note note) throws ResourceNotFoundException {
         return noteService.save(note);
     }
 

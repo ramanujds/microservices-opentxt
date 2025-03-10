@@ -1,7 +1,11 @@
+
+## Eureka Server Configuration
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
 ## Datasource Properties
-
-
-
 spring:
 ## Uncomment the following block to switch to h2 database
 #  profiles:
