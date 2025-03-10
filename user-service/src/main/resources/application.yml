@@ -1,0 +1,22 @@
+## Datasource Properties
+
+
+
+spring:
+  ## Uncomment the following block to switch to h2 database
+  #  profiles:
+  #    active: h2
+  datasource:
+    url: jdbc:mysql://localhost:3306/opentxt_notesapp
+    username: root
+    password: password
+
+  ## Hibernate Properties
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+
+        show_sql: true
+        format_sql: true

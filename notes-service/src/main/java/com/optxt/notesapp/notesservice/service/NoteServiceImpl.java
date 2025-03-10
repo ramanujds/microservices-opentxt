@@ -1,23 +1,36 @@
 package com.optxt.notesapp.notesservice.service;
 
+import com.optxt.notesapp.notesservice.client.UserClient;
+import com.optxt.notesapp.notesservice.dto.UserDTO;
 import com.optxt.notesapp.notesservice.model.Note;
 import com.optxt.notesapp.notesservice.repository.NoteRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Service
-public class NoteServiceImpl implements NoteService{
+public class NoteServiceImpl implements NoteService {
 
     private final NoteRepository noteRepository;
+    //    private final RestTemplate restTemplate;
+    private final UserClient userClient;
 
-
-    public NoteServiceImpl(NoteRepository noteRepository) {
+    public NoteServiceImpl(NoteRepository noteRepository, UserClient userClient) {
         this.noteRepository = noteRepository;
+        this.userClient = userClient;
     }
 
+
     public Note save(Note note) {
+
+//  Fetch the user from user-service
+        //    var user = restTemplate.getForObject("http://localhost:8200/api/users/"+note.getUserId(), UserDTO.class);
+        var user = userClient.getUserById(note.getUserId());
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
         note.setCreatedAt(LocalDate.now());
         return noteRepository.save(note);
     }
