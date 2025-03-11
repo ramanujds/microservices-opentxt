@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+
+    tools {
+        // Install the Maven version configured as "M3" and add it to the path.
+        maven "maven-3.9.9"
+    }
+
+    stages {
+
+        stage('Source') {
+            steps {
+                // Get some code from a GitHub repository
+                git branch: 'main', url: 'https://github.com/ramanujds/microservices-opentxt.git'
+
+            }
+        }
+
+        stage('Test') {
+            steps {
+
+                // Run Maven on a Unix agent.
+
+                dir('notes-service') {
+                    sh "mvn test"
+                }
+
+
+            }
+        }
+
+        stage('Build') {
+            steps {
+                 dir('notes-service') {
+                    sh "mvn -Dmaven.test.failure.ignore=true clean package"
+                }
+
+
+            }
+
+            post {
+                // If Maven was able to run the tests, even if some of the test
+                // failed, record the test results and archive the jar file.
+                success {
+                    junit '**/notes-service/target/surefire-reports/TEST-*.xml'
+                    archiveArtifacts 'notes-service/target/*.jar'
+                }
+            }
+        }
+    }
+}
