@@ -8,8 +8,8 @@ eureka:
 ## Datasource Properties
 spring:
 ## Uncomment the following block to switch to h2 database
-#  profiles:
-#    active: h2
+  profiles:
+    active: ${PROFILE:default}
   datasource:
     url: jdbc:mysql://localhost:3306/opentxt_notesapp
     username: root
