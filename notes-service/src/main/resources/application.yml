@@ -24,3 +24,15 @@ spring:
 
         show_sql: true
         format_sql: true
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

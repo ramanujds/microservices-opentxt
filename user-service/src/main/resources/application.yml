@@ -41,5 +41,17 @@ resilience4j:
             failureRateThreshold: 50
             waitDurationInOpenState: 5s
             permittedNumberOfCallsInHalfOpenState: 2
-            slidingWindowType: COUNT_BASED
+            slidingWindowType: count_based
             automaticTransitionFromOpenToHalfOpenEnabled: true
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
