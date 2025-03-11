@@ -1,0 +1,22 @@
+## Disable Eureka
+eureka:
+  client:
+    enabled: false
+
+## Datasource Properties for H2
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:notesdb
+    username: sa
+    password: password
+
+## Hibernate Properties
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+
+        show_sql: true
+        format_sql: true
