@@ -1,9 +1,12 @@
 package com.optxt.notesapp.userservice.api;
 
+import com.optxt.notesapp.userservice.dto.Note;
 import com.optxt.notesapp.userservice.model.User;
 import com.optxt.notesapp.userservice.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -24,6 +27,11 @@ public class UserController {
     @ResponseStatus(code = HttpStatus.CREATED)
     public User createUser(@RequestBody User user) {
         return userService.createUser(user);
+    }
+
+    @GetMapping("/notes/{userId}")
+    public List<Note> getNotesByUserId(@PathVariable long userId) {
+        return userService.getNotesByUserId(userId);
     }
 
 

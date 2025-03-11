@@ -47,4 +47,8 @@ public class NoteServiceImpl implements NoteService {
     public void deleteNoteById(Long id) {
         noteRepository.deleteById(id);
     }
+
+    public List<Note> findNotesByUserId(Long userId) {
+        return noteRepository.findByUserId(userId);
+    }
 }

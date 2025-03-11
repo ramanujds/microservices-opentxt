@@ -35,4 +35,17 @@ public class NoteController {
         return noteService.findNoteById(id);
     }
 
+    @GetMapping("/user/{userId}")
+    public List<Note> getNotesByUserId(@PathVariable long userId) {
+
+//        try{
+//            Thread.sleep(3000);
+//        }
+//        catch (InterruptedException e){
+//            e.printStackTrace();
+//        }
+//        throw new RuntimeException("Test Error occurred");
+        return noteService.findNotesByUserId(userId);
+    }
+
 }

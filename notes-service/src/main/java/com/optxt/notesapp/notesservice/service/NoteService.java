@@ -11,5 +11,6 @@ public interface NoteService {
     List<Note> findAllNotes();
     Note findNoteById(Long id);
     void deleteNoteById(Long id);
+    List<Note> findNotesByUserId(Long userId);
 
 }

@@ -1,3 +1,5 @@
+
+
 spring:
   cloud:
     gateway:
@@ -10,3 +12,11 @@ spring:
           uri: lb://notes-service
           predicates:
             - Path=/api/notes/**
+eureka:
+  instance:
+    hostname: localhost
+    client:
+        service-url:
+            defaultZone: http://localhost:8761/eureka/
+    ip-address: 127.0.0.1
+    prefer-ip-address: true
