@@ -1,12 +1,12 @@
 package com.optxt.notesapp.notesservice.service;
 
 import com.optxt.notesapp.notesservice.client.UserClient;
-import com.optxt.notesapp.notesservice.dto.UserDTO;
 import com.optxt.notesapp.notesservice.exception.ResourceNotFoundException;
 import com.optxt.notesapp.notesservice.model.Note;
 import com.optxt.notesapp.notesservice.repository.NoteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,9 +14,14 @@ import java.util.List;
 @Service
 public class NoteServiceImpl implements NoteService {
 
+    private static final String TOPIC = "notes";
+
     private final NoteRepository noteRepository;
     //    private final RestTemplate restTemplate;
     private final UserClient userClient;
+
+    @Autowired
+    private KafkaTemplate<String, Object> kafkaTemplate;
 
     public NoteServiceImpl(NoteRepository noteRepository, UserClient userClient) {
         this.noteRepository = noteRepository;
@@ -33,7 +38,9 @@ public class NoteServiceImpl implements NoteService {
             throw new ResourceNotFoundException("User not found");
         }
         note.setCreatedAt(LocalDate.now());
-        return noteRepository.save(note);
+        var savedNote = noteRepository.save(note);
+        kafkaTemplate.send(TOPIC, savedNote.toString());
+        return savedNote;
     }
 
     public List<Note> findAllNotes() {
